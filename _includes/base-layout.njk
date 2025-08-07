@@ -1,21 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang or 'en' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Eleventy Blog</title>
+  <title>{% if title %}{{ title }} - {% endif %}{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</title>
+  <meta name="description" content="{% if lang == 'ro' %}{{ site.ro.description }}{% else %}{{ site.en.description }}{% endif %} - Building RAG pipelines and AI solutions on GCP, AWS, and Azure.">
 
-  <link rel="stylesheet" href="{{ '/css/site.css' | url }}">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700|Roboto&display=fallback" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | url }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="{{ '/favicon.svg' | url }}">
 </head>
 <body>
-<header>
-  <a href="{{ '/' | url }}" class="link--home">My Blog</a>
-  <a href="{{ '/About' | url }}" class="link--about">About</a>
+<header class="site-header">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="{% if lang == 'ro' %}{{ '/ro/' | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="brand-link">
+        <span class="brand-text">{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</span>
+      </a>
+    </div>
+    <div class="nav-menu">
+      {% if lang == 'ro' %}
+        <a href="{{ '/ro/' | url }}" class="nav-link">{{ site.ro.nav.home }}</a>
+        <a href="{{ '/ro/despre/' | url }}" class="nav-link">{{ site.ro.nav.about }}</a>
+        <div class="nav-dropdown">
+          <a href="{{ '/ro/servicii/' | url }}" class="nav-link dropdown-toggle">{{ site.ro.nav.services }}</a>
+          <div class="dropdown-menu">
+            <a href="{{ '/ro/servicii-rag/' | url }}" class="dropdown-link">{{ site.ro.nav.rag }}</a>
+            <a href="{{ '/ro/computer-vision/' | url }}" class="dropdown-link">{{ site.ro.nav.vision }}</a>
+            <a href="{{ '/ro/contabilitate-automata/' | url }}" class="dropdown-link">{{ site.ro.nav.accounting }}</a>
+          </div>
+        </div>
+      {% else %}
+        <a href="{{ '/en/' | url }}" class="nav-link">{{ site.en.nav.home }}</a>
+        <a href="{{ '/en/about/' | url }}" class="nav-link">{{ site.en.nav.about }}</a>
+        <div class="nav-dropdown">
+          <a href="{{ '/en/services/' | url }}" class="nav-link dropdown-toggle">{{ site.en.nav.services }}</a>
+          <div class="dropdown-menu">
+            <a href="{{ '/en/rag-services/' | url }}" class="dropdown-link">{{ site.en.nav.rag }}</a>
+            <a href="{{ '/en/computer-vision/' | url }}" class="dropdown-link">{{ site.en.nav.vision }}</a>
+            <a href="{{ '/en/automated-accounting/' | url }}" class="dropdown-link">{{ site.en.nav.accounting }}</a>
+          </div>
+        </div>
+      {% endif %}
+      <div class="language-switcher">
+        <a href="{% if lang == 'ro' %}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="lang-link {% if lang != 'ro' %}active{% endif %}">EN</a>
+        <a href="{% if lang == 'en' %}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | url }}{% else %}{{ '/ro/' | url }}{% endif %}" class="lang-link {% if lang == 'ro' %}active{% endif %}">RO</a>
+      </div>
+    </div>
+  </nav>
 </header>
-<main>
+<main class="site-main">
   {{ content | safe }}
 </main>
-<footer>&copy; My Blog</footer>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</h3>
+        <p>{% if lang == 'ro' %}{{ site.ro.footer.tagline }}{% else %}{{ site.en.footer.tagline }}{% endif %}</p>
+      </div>
+      <div class="footer-section">
+        <h4>{% if lang == 'ro' %}{{ site.ro.footer.services_title }}{% else %}{{ site.en.footer.services_title }}{% endif %}</h4>
+        <ul>
+          {% if lang == 'ro' %}
+            <li><a href="{{ '/ro/servicii/' | url }}">Pipeline-uri RAG</a></li>
+            <li><a href="{{ '/ro/servicii/' | url }}">AI în Cloud</a></li>
+            <li><a href="{{ '/ro/servicii/' | url }}">Consultanță AI</a></li>
+          {% else %}
+            <li><a href="{{ '/en/services/' | url }}">RAG Pipelines</a></li>
+            <li><a href="{{ '/en/services/' | url }}">Cloud AI</a></li>
+            <li><a href="{{ '/en/services/' | url }}">AI Consulting</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>{% if lang == 'ro' %}{{ site.ro.footer.tech_title }}{% else %}{{ site.en.footer.tech_title }}{% endif %}</h4>
+        <ul>
+          <li>Google Cloud Platform</li>
+          <li>Amazon Web Services</li>
+          <li>Microsoft Azure</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 {% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}. {% if lang == 'ro' %}{{ site.ro.footer.copyright }}{% else %}{{ site.en.footer.copyright }}{% endif %}</p>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

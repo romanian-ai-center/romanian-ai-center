@@ -1,6 +1,7 @@
 ---
 layout: base-layout.njk
-permalink: /about/
+lang: en
+permalink: /en/about/
 ---
 
 <section class="page-header">

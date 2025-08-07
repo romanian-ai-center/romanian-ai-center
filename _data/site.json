@@ -1,0 +1,96 @@
+{
+  "en": {
+    "title": "Romanian Center for AI",
+    "description": "Building the Future with Artificial Intelligence",
+    "nav": {
+      "home": "Home",
+      "about": "About", 
+      "services": "Services",
+      "rag": "RAG Services",
+      "vision": "Computer Vision",
+      "accounting": "AI Accounting"
+    },
+    "hero": {
+      "title": "Romanian Center for AI",
+      "subtitle": "Building the Future with Artificial Intelligence",
+      "description": "Specializing in RAG pipelines, cloud AI solutions, and enterprise-grade artificial intelligence implementations.",
+      "cta": {
+        "learn_more": "Learn More",
+        "services": "Our Services"
+      }
+    },
+    "expertise": {
+      "title": "Our Expertise",
+      "items": [
+        {
+          "title": "RAG Pipelines",
+          "description": "Advanced Retrieval-Augmented Generation systems for enhanced AI responses"
+        },
+        {
+          "title": "Cloud Platforms", 
+          "description": "Expert deployment on GCP, AWS, and Azure infrastructure"
+        },
+        {
+          "title": "Enterprise AI",
+          "description": "Scalable artificial intelligence solutions for business transformation"
+        }
+      ]
+    },
+    "technologies": {
+      "title": "Technologies We Use"
+    },
+    "footer": {
+      "tagline": "Building the future with artificial intelligence",
+      "services_title": "Services",
+      "tech_title": "Technologies",
+      "copyright": "All rights reserved."
+    }
+  },
+  "ro": {
+    "title": "Centrul Român pentru AI",
+    "description": "Construind Viitorul cu Inteligența Artificială",
+    "nav": {
+      "home": "Acasă",
+      "about": "Despre Noi",
+      "services": "Servicii",
+      "rag": "Servicii RAG",
+      "vision": "Computer Vision",
+      "accounting": "Contabilitate AI"
+    },
+    "hero": {
+      "title": "Centrul Român pentru AI",
+      "subtitle": "Construind Viitorul cu Inteligența Artificială",
+      "description": "Specializați în pipeline-uri RAG, soluții AI în cloud și implementări de inteligență artificială la nivel enterprise.",
+      "cta": {
+        "learn_more": "Află Mai Mult",
+        "services": "Serviciile Noastre"
+      }
+    },
+    "expertise": {
+      "title": "Expertiza Noastră",
+      "items": [
+        {
+          "title": "Pipeline-uri RAG",
+          "description": "Sisteme avansate de Generare Augmentată prin Recuperare pentru răspunsuri AI îmbunătățite"
+        },
+        {
+          "title": "Platforme Cloud",
+          "description": "Implementare expertă pe infrastructura GCP, AWS și Azure"
+        },
+        {
+          "title": "AI Enterprise",
+          "description": "Soluții de inteligență artificială scalabile pentru transformarea afacerilor"
+        }
+      ]
+    },
+    "technologies": {
+      "title": "Tehnologiile Pe Care Le Folosim"
+    },
+    "footer": {
+      "tagline": "Construind viitorul cu inteligența artificială",
+      "services_title": "Servicii",
+      "tech_title": "Tehnologii",
+      "copyright": "Toate drepturile rezervate."
+    }
+  }
+}

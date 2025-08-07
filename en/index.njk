@@ -1,0 +1,47 @@
+---
+layout: base-layout.njk
+lang: en
+permalink: /en/
+---
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>{{ site.en.hero.title }}</h1>
+    <p class="hero-subtitle">{{ site.en.hero.subtitle }}</p>
+    <p class="hero-description">{{ site.en.hero.description }}</p>
+    <div class="hero-cta">
+      <a href="/en/about/" class="btn btn-primary">{{ site.en.hero.cta.learn_more }}</a>
+      <a href="/en/services/" class="btn btn-secondary">{{ site.en.hero.cta.services }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="expertise">
+  <div class="container">
+    <h2>{{ site.en.expertise.title }}</h2>
+    <div class="expertise-grid">
+      {% for item in site.en.expertise.items %}
+      <div class="expertise-item">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="technologies">
+  <div class="container">
+    <h2>{{ site.en.technologies.title }}</h2>
+    <div class="tech-list">
+      <span class="tech-item">Google Cloud Platform</span>
+      <span class="tech-item">Amazon Web Services</span>
+      <span class="tech-item">Microsoft Azure</span>
+      <span class="tech-item">LangChain</span>
+      <span class="tech-item">Vector Databases</span>
+      <span class="tech-item">Transformers</span>
+      <span class="tech-item">PyTorch</span>
+      <span class="tech-item">TensorFlow</span>
+    </div>
+  </div>
+</section>

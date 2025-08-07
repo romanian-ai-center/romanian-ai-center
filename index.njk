@@ -1,23 +1,24 @@
 ---
 layout: base-layout.njk
-pagination:
-  data: collections.post
-  size: 10
-  reverse: true
-  alias: posts
+permalink: /
 ---
-{% for post in posts %}
-  <article>
 
-    <h1>
-      <a href="{{ post.url | url }}">{{ post.data.title }}</a>
-    </h1>
+<script>
+  // Redirect to English version by default
+  window.location.replace('/en/');
+</script>
 
-    <time datetime="{{ post.date | dateIso }}">{{ post.date | dateReadable }}</time>
+<noscript>
+  <meta http-equiv="refresh" content="0; url=/en/">
+</noscript>
 
-    {% excerpt post %}
-
-    <a href="{{ post.url | url }}">Read more</a>
-
-  </article>
-{% endfor %}
+<section class="hero">
+  <div class="hero-content">
+    <h1>Romanian Center for AI</h1>
+    <p class="hero-subtitle">Building the Future with Artificial Intelligence</p>
+    <div class="hero-cta">
+      <a href="/en/" class="btn btn-primary">English</a>
+      <a href="/ro/" class="btn btn-secondary">Română</a>
+    </div>
+  </div>
+</section>
