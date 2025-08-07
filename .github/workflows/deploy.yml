@@ -27,7 +27,7 @@ jobs:
           node-version: '20' # Use a current LTS version
           cache: 'npm'
 
-      - name: Install dependencies  dependencies 📦
+      - name: Install dependencies 📦
         run: npm ci
 
       - name: Build with Eleventy 🔨
@@ -37,9 +37,9 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Upload artifact ⬆️
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          # Upload the _site folder
+          name: github-pages
           path: './_site'
 
       - name: Deploy to GitHub Pages 🚀
