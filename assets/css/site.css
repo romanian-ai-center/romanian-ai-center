@@ -201,9 +201,9 @@ body::before {
     radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 25%),
     radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 25%);
   background-size: 600px 600px, 100% 100%, 100% 100%;
-  background-position: center center, 25% 25%, 75% 75%;
+  background-position: 90% center, 25% 25%, 75% 75%;
   background-repeat: no-repeat, no-repeat, no-repeat;
-  opacity: 0.3;
+  opacity: 0.7;
   animation: pulse 4s ease-in-out infinite;
 }
 
