@@ -1,0 +1,72 @@
+# Site settings
+title: Romanian Center for AI
+description: Building the Future with Artificial Intelligence - Specializing in RAG pipelines, Computer Vision, and Automated Accounting solutions on GCP, AWS, and Azure.
+url: "https://romanian-ai-center.github.io"
+baseurl: "/romanian-ai-center"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Exclude from processing
+exclude:
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - .eleventy.js
+  - README.md
+  - LICENSE
+  - .gitignore
+  - .github/
+
+# Site metadata
+author:
+  name: Romanian Center for AI
+  email: contact@romanian-ai-center.com
+
+# Social links (optional)
+github_username: your-username
+linkedin_url: https://linkedin.com/company/romanian-center-for-ai
+
+# SEO settings
+lang: en_US
+twitter:
+  card: summary_large_image
+  site: "@RomanianAI"
+
+# Google Analytics (optional - add your tracking ID)
+# google_analytics: UA-XXXXXXXX-X
+
+# Collections (if needed for future content organization)
+collections:
+  services:
+    output: true
+    permalink: /:collection/:name/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "base-layout"
+  - scope:
+      path: "en"
+      type: "pages"
+    values:
+      lang: "en"
+  - scope:
+      path: "ro"
+      type: "pages"
+    values:
+      lang: "ro"
+
+# Plugin settings (GitHub Pages supported plugins)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Timezone
+timezone: Europe/Bucharest

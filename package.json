@@ -1,7 +1,7 @@
 {
-  "name": "eleventy-blog",
+  "name": "CRIA",
   "version": "1.1.0",
-  "description": "An example blog site using Eleventy that covers fundamental functionality",
+  "description": "Romanian AI Center",
   "scripts": {
     "build": "npx eleventy --pathprefix 'romanian-ai-center'",
     "serve": "npx eleventy --serve",
@@ -10,13 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JonUK/eleventy-blog.git"
+    "url": "git+https://github.com/romanian-ai-center/"
   },
   "author": "Claudiu Creanga",
-  "bugs": {
-    "url": "https://github.com/JonUK/eleventy-blog/issues"
-  },
-  "homepage": "https://github.com/JonUK/eleventy-blog#readme",
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
     "jest": "^26.6.3",
