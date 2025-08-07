@@ -19,3 +19,4 @@ npm run serve
 ```
 
 Then access the site with the URL [http://localhost:8080/](http://localhost:8080/) (your port may vary).# Trigger workflow update
+# Force new workflow run with v4 actions - Thu Aug  7 23:29:05 EEST 2025
