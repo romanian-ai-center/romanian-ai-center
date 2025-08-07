@@ -3,10 +3,10 @@
 name: Build and Deploy Eleventy Site
 
 on:
-  # Runs on pushes to the main branch
+  # Runs on pushes to the master branch
   push:
     branches:
-      - main
+      - master
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -27,11 +27,11 @@ jobs:
           node-version: '20' # Use a current LTS version
           cache: 'npm'
 
-      - name: Install dependencies  dependencies 📦
+      - name: Install dependencies 📦
         run: npm ci
 
       - name: Build with Eleventy 🔨
-        run: npx @11ty/eleventy
+        run: npm run build
 
       - name: Setup Pages 📃
         uses: actions/configure-pages@v5

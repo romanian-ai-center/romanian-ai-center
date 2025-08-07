@@ -12,8 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/JonUK/eleventy-blog.git"
   },
-  "author": "Jon Keeping",
-  "license": "MIT",
+  "author": "Claudiu Creanga",
   "bugs": {
     "url": "https://github.com/JonUK/eleventy-blog/issues"
   },
