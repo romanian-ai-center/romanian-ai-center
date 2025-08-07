@@ -38,15 +38,13 @@ jobs:
         run: npm ci
 
       - name: Build with Eleventy 🔨
-        run: |
-          npm install
-          npx @11ty/eleventy
+        run: npm run build
 
       - name: Setup Pages 📃
         uses: actions/configure-pages@v5
 
       - name: Upload artifact ⬆️
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: './_site'
 
