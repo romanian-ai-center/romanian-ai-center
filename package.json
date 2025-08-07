@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "Romanian AI Center",
   "scripts": {
-    "build": "npx eleventy --pathprefix 'romanian-ai-center'",
+    "build": "npx eleventy",
     "serve": "npx eleventy --serve",
     "debug": "DEBUG=* npx eleventy",
     "test": "jest"
