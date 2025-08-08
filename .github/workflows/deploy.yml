@@ -36,6 +36,12 @@ jobs:
       - name: Build with Eleventy 🔨
         run: npx @11ty/eleventy # Default output is the _site directory
       
+      # ❗️ ADD THIS STEP TO CHECK FOR SYMLINKS ❗️
+      - name: Check _site directory for symlinks
+        run: |
+          echo "Searching for symlinks in ./_site ..."
+          find ./_site -type l -ls
+      
       - name: Upload artifact ⬆️
         uses: actions/upload-artifact@v4
         with:
