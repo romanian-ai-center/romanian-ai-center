@@ -50,7 +50,7 @@ jobs:
           find ./_site -type l -ls
       
       - name: Upload artifact ⬆️
-        uses: actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           # The artifact name must be github-pages for the deploy-pages action to find it
           name: github-pages
