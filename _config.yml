@@ -62,11 +62,5 @@ defaults:
     values:
       lang: "ro"
 
-# Plugin settings (GitHub Pages supported plugins)
-plugins:
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-seo-tag
-
 # Timezone
 timezone: Europe/Bucharest

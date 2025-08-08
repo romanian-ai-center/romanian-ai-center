@@ -1,6 +1,6 @@
 # .github/workflows/deploy.yml
 
-name: Build and Deploy Eleventy Site
+name: Build and Deploy Eleventy to GitHub Pages
 
 on:
   # Runs on pushes to the main branch
@@ -10,11 +10,16 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Set permissions for the GITHUB_TOKEN for the entire workflow
+permissions:
+  contents: read      # To checkout the code
+  pages: write        # To deploy to Pages
+  id-token: write     # To authenticate with the OIDC token
+
 jobs:
-  build-and-deploy:
+  # Build job: builds the site and uploads it as an artifact
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
@@ -22,17 +27,34 @@ jobs:
       - name: Setup Node.js 🟩
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use a current LTS version
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies 📦
         run: npm ci
 
       - name: Build with Eleventy 🔨
-        run: npx @11ty/eleventy
-
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+        run: npx @11ty/eleventy # Default output is the _site directory
+      
+      - name: Upload artifact ⬆️
+        uses: actions/upload-artifact@v4
         with:
-          folder: _site
-          clean: true
+          # The artifact name must be github-pages for the deploy-pages action to find it
+          name: github-pages
+          path: _site
+
+  # Deploy job: takes the artifact and deploys it to GitHub Pages
+  deploy:
+    # This job depends on the build job completing successfully
+    needs: build
+    runs-on: ubuntu-latest
+
+    # Specify the deployment environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4
