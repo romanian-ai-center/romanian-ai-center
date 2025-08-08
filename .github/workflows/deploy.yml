@@ -36,10 +36,10 @@ jobs:
       - name: Build with Eleventy 🔨
         run: npx @11ty/eleventy # Default output is the _site directory
       
-      # ❗️ ADD THIS TEST STEP ❗️
-      - name: "TEST: Overwrite index.html"
-        run: echo "<h1>Test Page</h1><p>Deployment test successful.</p>" > ./_site/index.html
-      
+      # ❗️ ADD THIS STEP TO FIX PERMISSIONS ❗️
+      - name: Fix file permissions
+        run: chmod -R a+rX _site
+
       # ❗️ ADD THIS STEP TO CHECK FOR SYMLINKS ❗️
       - name: Check _site directory for symlinks
         run: |
