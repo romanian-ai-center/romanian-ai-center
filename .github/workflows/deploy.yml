@@ -38,7 +38,7 @@ jobs:
       
       # ❗️ ADD THIS STEP TO FIX PERMISSIONS ❗️
       - name: Fix file permissions
-        run: chmod -R a+rX _site
+        run: chmod -R a+rX .
 
       # ❗️ ADD THIS STEP TO CHECK FOR SYMLINKS ❗️
       - name: Check _site directory for symlinks
