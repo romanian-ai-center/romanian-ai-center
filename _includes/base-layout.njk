@@ -3,8 +3,116 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- SEO Meta Tags -->
   <title>{% if title %}{{ title }} - {% endif %}{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</title>
-  <meta name="description" content="{% if lang == 'ro' %}{{ site.ro.description }}{% else %}{{ site.en.description }}{% endif %} - Building RAG pipelines and AI solutions on GCP, AWS, and Azure.">
+  <meta name="description" content="{% if description %}{{ description }}{% else %}{% if lang == 'ro' %}{{ site.ro.description }}{% else %}{{ site.en.description }}{% endif %} - Building RAG pipelines and AI solutions on GCP, AWS, and Azure.{% endif %}">
+  <meta name="keywords" content="{% if lang == 'ro' %}inteligență artificială, AI, RAG, computer vision, bioinformatică, contabilitate automată, cloud AI, România{% else %}artificial intelligence, AI, RAG pipelines, computer vision, bioinformatics, automated accounting, cloud AI, Romania{% endif %}">
+  <meta name="author" content="Romanian Center for AI">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  
+  <!-- Multilingual SEO - hreflang tags -->
+  {% if lang == 'en' %}
+    <link rel="alternate" hreflang="en" href="{{ site.url }}{{ page.url }}">
+    <link rel="alternate" hreflang="ro" href="{{ site.url }}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ page.url }}">
+  {% else %}
+    <link rel="alternate" hreflang="ro" href="{{ site.url }}{{ page.url }}">
+    <link rel="alternate" hreflang="en" href="{{ site.url }}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') }}">
+  {% endif %}
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% if title %}{{ title }} - {% endif %}{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}">
+  <meta property="og:description" content="{% if description %}{{ description }}{% else %}{% if lang == 'ro' %}{{ site.ro.description }}{% else %}{{ site.en.description }}{% endif %} - Building RAG pipelines and AI solutions on GCP, AWS, and Azure.{% endif %}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:site_name" content="{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}">
+  <meta property="og:image" content="{{ site.url }}/assets/images/{% if lang == 'ro' %}logo_ro.png{% else %}logo_en.png{% endif %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="{% if lang == 'ro' %}ro_RO{% else %}en_US{% endif %}">
+  {% if lang == 'en' %}
+    <meta property="og:locale:alternate" content="ro_RO">
+  {% else %}
+    <meta property="og:locale:alternate" content="en_US">
+  {% endif %}
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@RomanianAI">
+  <meta name="twitter:creator" content="@RomanianAI">
+  <meta name="twitter:title" content="{% if title %}{{ title }} - {% endif %}{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}">
+  <meta name="twitter:description" content="{% if description %}{{ description }}{% else %}{% if lang == 'ro' %}{{ site.ro.description }}{% else %}{{ site.en.description }}{% endif %} - Building RAG pipelines and AI solutions on GCP, AWS, and Azure.{% endif %}">
+  <meta name="twitter:image" content="{{ site.url }}/assets/images/{% if lang == 'ro' %}logo_ro.png{% else %}logo_en.png{% endif %}">
+  
+  <!-- Structured Data - JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}",
+    "alternateName": "CRIA",
+    "url": "{{ site.url }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.url }}/assets/images/{% if lang == 'ro' %}logo_ro.png{% else %}logo_en.png{% endif %}"
+    },
+    "description": "{% if lang == 'ro' %}{{ site.ro.description }}{% else %}{{ site.en.description }}{% endif %}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "RO",
+      "addressRegion": "Romania"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "email": "contact@romanian-ai-center.com"
+    },
+    "sameAs": [
+      "https://linkedin.com/company/romanian-center-for-ai",
+      "https://github.com/romanian-ai-center"
+    ],
+    "offers": [
+      {
+        "@type": "Service",
+        "name": "{% if lang == 'ro' %}Servicii RAG{% else %}RAG Services{% endif %}",
+        "description": "{% if lang == 'ro' %}Sisteme avansate de Generare Augmentată prin Recuperare{% else %}Advanced Retrieval-Augmented Generation systems{% endif %}"
+      },
+      {
+        "@type": "Service",
+        "name": "Computer Vision",
+        "description": "{% if lang == 'ro' %}Soluții de viziune artificială pentru analiza imaginilor și video{% else %}Computer vision solutions for image and video analysis{% endif %}"
+      },
+      {
+        "@type": "Service",
+        "name": "{% if lang == 'ro' %}Bioinformatică{% else %}Bioinformatics{% endif %}",
+        "description": "{% if lang == 'ro' %}Analiză de date biologice și genetice cu AI{% else %}Biological and genetic data analysis with AI{% endif %}"
+      },
+      {
+        "@type": "Service",
+        "name": "{% if lang == 'ro' %}Contabilitate Automată{% else %}Automated Accounting{% endif %}",
+        "description": "{% if lang == 'ro' %}Automatizarea proceselor contabile cu inteligență artificială{% else %}Automation of accounting processes with artificial intelligence{% endif %}"
+      },
+      {
+        "@type": "Service",
+        "name": "{% if lang == 'ro' %}Conformitate Legea AI UE{% else %}EU AI Act Compliance{% endif %}",
+        "description": "{% if lang == 'ro' %}Consultanță pentru conformitatea cu Legea AI a Uniunii Europene{% else %}Consulting for compliance with the European Union AI Act{% endif %}"
+      }
+    ],
+    "areaServed": {
+      "@type": "Country",
+      "name": "Romania"
+    },
+    "serviceArea": {
+      "@type": "Country",
+      "name": "Romania"
+    }
+  }
+  </script>
   
   <!-- Theme and mobile optimization -->
   <meta name="theme-color" content="#6366f1">

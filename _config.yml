@@ -2,7 +2,7 @@
 title: Romanian Center for AI
 description: Building the Future with Artificial Intelligence - Specializing in RAG pipelines, Computer Vision, and Automated Accounting solutions on GCP, AWS, and Azure.
 url: "https://romanian-ai-center.github.io"
-baseurl: "/romanian-ai-center"
+baseurl: ""
 
 # Build settings
 markdown: kramdown

@@ -1,0 +1,172 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- English pages -->
+  <url>
+    <loc>{{ site.url }}/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="{{ site.url }}/en/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/despre/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/about/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/services/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/servicii/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/services/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/rag-services/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/servicii-rag/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/rag-services/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/computer-vision/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/computer-vision/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/computer-vision/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/automated-accounting/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/contabilitate-automata/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/automated-accounting/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/bioinformatics/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/bioinformatica/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/bioinformatics/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/eu-ai-act-compliance/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/conformitate-legea-ai-ue/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/eu-ai-act-compliance/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/en/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/contact/" />
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/contact/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Romanian pages -->
+  <url>
+    <loc>{{ site.url }}/ro/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="{{ site.url }}/en/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/despre/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/about/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/despre/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/servicii/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/services/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/servicii/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/servicii-rag/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/rag-services/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/servicii-rag/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/computer-vision/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/computer-vision/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/computer-vision/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/contabilitate-automata/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/automated-accounting/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/contabilitate-automata/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/bioinformatica/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/bioinformatics/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/bioinformatica/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/conformitate-legea-ai-ue/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/eu-ai-act-compliance/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/conformitate-legea-ai-ue/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>{{ site.url }}/ro/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="{{ site.url }}/en/contact/" />
+    <xhtml:link rel="alternate" hreflang="ro" href="{{ site.url }}/ro/contact/" />
+    <lastmod>{{ "now" | date: "%Y-%m-%d" }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
