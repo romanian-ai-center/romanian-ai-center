@@ -4,44 +4,48 @@ lang: en
 permalink: /en/
 ---
 
-<section class="hero">
-  <div class="hero-content">
-    <h1>{{ site.en.hero.title }}</h1>
-    <p class="hero-subtitle">{{ site.en.hero.subtitle }}</p>
-    <p class="hero-description">{{ site.en.hero.description }}</p>
-    <div class="hero-cta">
-      <a href="/en/about/" class="btn btn-primary">{{ site.en.hero.cta.learn_more }}</a>
-      <a href="/en/services/" class="btn btn-secondary">{{ site.en.hero.cta.services }}</a>
+<section class="relative bg-gradient-to-br from-primary via-purple-600 to-blue-600 text-white py-20 lg:py-32 overflow-hidden">
+  <div class="neuron-bg"></div>
+  <div class="absolute inset-0 bg-black opacity-20"></div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-float">{{ site.en.hero.title }}</h1>
+    <p class="text-xl md:text-2xl font-medium mb-4 opacity-90">{{ site.en.hero.subtitle }}</p>
+    <p class="text-lg md:text-xl mb-8 opacity-80 max-w-3xl mx-auto">{{ site.en.hero.description }}</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/en/about/" class="bg-white text-primary hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">{{ site.en.hero.cta.learn_more }}</a>
+      <a href="/en/services/" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary font-semibold py-4 px-8 rounded-lg transition-all duration-300">{{ site.en.hero.cta.services }}</a>
     </div>
   </div>
 </section>
 
-<section class="expertise">
-  <div class="container">
-    <h2>{{ site.en.expertise.title }}</h2>
-    <div class="expertise-grid">
+<section class="py-16 px-4 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">{{ site.en.expertise.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for item in site.en.expertise.items %}
-      <div class="expertise-item">
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.description }}</p>
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 hover:border-primary/20 group">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4 group-hover:text-primary transition-colors">{{ item.title }}</h3>
+        <p class="text-gray-600 leading-relaxed">{{ item.description }}</p>
       </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<section class="technologies">
-  <div class="container">
-    <h2>{{ site.en.technologies.title }}</h2>
-    <div class="tech-list">
-      <span class="tech-item">Google Cloud Platform</span>
-      <span class="tech-item">Amazon Web Services</span>
-      <span class="tech-item">Microsoft Azure</span>
-      <span class="tech-item">LangChain</span>
-      <span class="tech-item">Vector Databases</span>
-      <span class="tech-item">Transformers</span>
-      <span class="tech-item">PyTorch</span>
-      <span class="tech-item">TensorFlow</span>
+<section class="py-16 px-4 bg-gray-50">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12">{{ site.en.technologies.title }}</h2>
+    <div class="flex flex-wrap justify-center gap-4">
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">Google Cloud Platform</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">Amazon Web Services</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">Microsoft Azure</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">Dialogflow CX</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">LangFuse</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">LangChain</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">Vector Databases</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">Transformers</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">PyTorch</span>
+      <span class="bg-white text-gray-800 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-shadow border border-gray-200 font-medium">TensorFlow</span>
     </div>
   </div>
 </section>

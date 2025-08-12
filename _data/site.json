@@ -8,7 +8,10 @@
       "services": "Services",
       "rag": "RAG Services",
       "vision": "Computer Vision",
-      "accounting": "AI Accounting"
+      "accounting": "AI Accounting",
+      "bioinformatics": "Bioinformatics",
+      "eu_compliance": "EU AI Act Compliance",
+      "contact": "Contact"
     },
     "hero": {
       "title": "Romanian Center for AI",
@@ -42,12 +45,12 @@
     "footer": {
       "tagline": "Building the future with artificial intelligence",
       "services_title": "Services",
-      "tech_title": "Technologies",
+      "tech_title": "Cloud technologies",
       "copyright": "All rights reserved."
     }
   },
   "ro": {
-    "title": "Centrul Român pentru AI",
+    "title": "Centrul Român de Inteligența Artificială",
     "description": "Construind Viitorul cu Inteligența Artificială",
     "nav": {
       "home": "Acasă",
@@ -55,10 +58,13 @@
       "services": "Servicii",
       "rag": "Servicii RAG",
       "vision": "Computer Vision",
-      "accounting": "Contabilitate AI"
+      "accounting": "Contabilitate AI",
+      "bioinformatics": "Bioinformatică",
+      "eu_compliance": "Conformitate Legea AI UE",
+      "contact": "Contact"
     },
     "hero": {
-      "title": "Centrul Român pentru AI",
+      "title": "Centrul Român de Inteligența Artificială",
       "subtitle": "Construind Viitorul cu Inteligența Artificială",
       "description": "Specializați în pipeline-uri RAG, soluții AI în cloud și implementări de inteligență artificială la nivel enterprise.",
       "cta": {
@@ -89,7 +95,7 @@
     "footer": {
       "tagline": "Construind viitorul cu inteligența artificială",
       "services_title": "Servicii",
-      "tech_title": "Tehnologii",
+      "tech_title": "Tehnologii Cloud",
       "copyright": "Toate drepturile rezervate."
     }
   }

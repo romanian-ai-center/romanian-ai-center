@@ -5,87 +5,217 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% if title %}{{ title }} - {% endif %}{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</title>
   <meta name="description" content="{% if lang == 'ro' %}{{ site.ro.description }}{% else %}{{ site.en.description }}{% endif %} - Building RAG pipelines and AI solutions on GCP, AWS, and Azure.">
+  
+  <!-- Theme and mobile optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="msapplication-TileColor" content="#6366f1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-  <link rel="stylesheet" href="{{ '/assets/css/site.css' | url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | url }}">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="{{ '/favicon.svg' | url }}">
+  
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/favicon_io/apple-touch-icon.png' | url }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/favicon_io/favicon-32x32.png' | url }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/favicon_io/favicon-16x16.png' | url }}">
+  <link rel="manifest" href="{{ '/favicon_io/site.webmanifest' | url }}">
+  <link rel="shortcut icon" href="{{ '/favicon_io/favicon.ico' | url }}">
 </head>
-<body>
-<header class="site-header">
-  <nav class="navbar">
-    <div class="nav-brand">
-      <a href="{% if lang == 'ro' %}{{ '/ro/' | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="brand-link">
-        <span class="brand-text">{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</span>
-      </a>
-    </div>
-    <div class="nav-menu">
-      {% if lang == 'ro' %}
-        <a href="{{ '/ro/' | url }}" class="nav-link">{{ site.ro.nav.home }}</a>
-        <a href="{{ '/ro/despre/' | url }}" class="nav-link">{{ site.ro.nav.about }}</a>
-        <div class="nav-dropdown">
-          <a href="{{ '/ro/servicii/' | url }}" class="nav-link dropdown-toggle">{{ site.ro.nav.services }}</a>
-          <div class="dropdown-menu">
-            <a href="{{ '/ro/servicii-rag/' | url }}" class="dropdown-link">{{ site.ro.nav.rag }}</a>
-            <a href="{{ '/ro/computer-vision/' | url }}" class="dropdown-link">{{ site.ro.nav.vision }}</a>
-            <a href="{{ '/ro/contabilitate-automata/' | url }}" class="dropdown-link">{{ site.ro.nav.accounting }}</a>
-          </div>
-        </div>
-      {% else %}
-        <a href="{{ '/en/' | url }}" class="nav-link">{{ site.en.nav.home }}</a>
-        <a href="{{ '/en/about/' | url }}" class="nav-link">{{ site.en.nav.about }}</a>
-        <div class="nav-dropdown">
-          <a href="{{ '/en/services/' | url }}" class="nav-link dropdown-toggle">{{ site.en.nav.services }}</a>
-          <div class="dropdown-menu">
-            <a href="{{ '/en/rag-services/' | url }}" class="dropdown-link">{{ site.en.nav.rag }}</a>
-            <a href="{{ '/en/computer-vision/' | url }}" class="dropdown-link">{{ site.en.nav.vision }}</a>
-            <a href="{{ '/en/automated-accounting/' | url }}" class="dropdown-link">{{ site.en.nav.accounting }}</a>
-          </div>
-        </div>
-      {% endif %}
-      <div class="language-switcher">
-        <a href="{% if lang == 'ro' %}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="lang-link {% if lang != 'ro' %}active{% endif %}">EN</a>
-        <a href="{% if lang == 'en' %}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | url }}{% else %}{{ '/ro/' | url }}{% endif %}" class="lang-link {% if lang == 'ro' %}active{% endif %}">RO</a>
+<body class="font-inter bg-gray-50">
+
+<header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex-shrink-0">
+        <a href="{% if lang == 'ro' %}{{ '/ro/' | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="flex items-center">
+          <img src="{% if lang == 'ro' %}{{ '/assets/images/logo_ro.png' | url }}{% else %}{{ '/assets/images/logo_en.png' | url }}{% endif %}" 
+               alt="{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}" 
+               class="h-8 w-auto">
+        </a>
       </div>
+      <div class="hidden md:flex md:space-x-8 md:items-center">
+        {% if lang == 'ro' %}
+          <a href="{{ '/ro/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.ro.nav.home }}</a>
+          <a href="{{ '/ro/despre/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.ro.nav.about }}</a>
+          <div class="relative group">
+            <a href="{{ '/ro/servicii/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+              {{ site.ro.nav.services }}
+              <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </a>
+            <div class="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="py-2">
+                <a href="{{ '/ro/servicii-rag/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.ro.nav.rag }}</a>
+                <a href="{{ '/ro/bioinformatica/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.ro.nav.bioinformatics }}</a>
+                <a href="{{ '/ro/conformitate-legea-ai-ue/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.ro.nav.eu_compliance }}</a>
+                <a href="{{ '/ro/computer-vision/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.ro.nav.vision }}</a>
+                <a href="{{ '/ro/contabilitate-automata/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.ro.nav.accounting }}</a>
+              </div>
+            </div>
+          </div>
+          <a href="{{ '/ro/contact/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.ro.nav.contact }}</a>
+        {% else %}
+          <a href="{{ '/en/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.en.nav.home }}</a>
+          <a href="{{ '/en/about/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.en.nav.about }}</a>
+          <div class="relative group">
+            <a href="{{ '/en/services/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+              {{ site.en.nav.services }}
+              <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </a>
+            <div class="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="py-2">
+                <a href="{{ '/en/rag-services/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.en.nav.rag }}</a>
+                <a href="{{ '/en/bioinformatics/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.en.nav.bioinformatics }}</a>
+                <a href="{{ '/en/eu-ai-act-compliance/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.en.nav.eu_compliance }}</a>
+                <a href="{{ '/en/computer-vision/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.en.nav.vision }}</a>
+                <a href="{{ '/en/automated-accounting/' | url }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary">{{ site.en.nav.accounting }}</a>
+              </div>
+            </div>
+          </div>
+          <a href="{{ '/en/contact/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.en.nav.contact }}</a>
+        {% endif %}
+                 <div class="flex items-center space-x-2 ml-6">
+           <a href="{% if lang == 'ro' %}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors {% if lang != 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">EN</a>
+           <a href="{% if lang == 'en' %}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/ro/' | url }}{% endif %}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors {% if lang == 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">RO</a>
+         </div>
+       </div>
+       
+       <!-- Mobile menu button -->
+       <div class="md:hidden flex items-center">
+         <div class="flex items-center space-x-2 mr-4">
+           <a href="{% if lang == 'ro' %}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="px-2 py-1 rounded text-xs font-medium transition-colors {% if lang != 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">EN</a>
+           <a href="{% if lang == 'en' %}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/ro/' | url }}{% endif %}" class="px-2 py-1 rounded text-xs font-medium transition-colors {% if lang == 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">RO</a>
+         </div>
+         <button type="button" class="text-gray-700 hover:text-primary focus:outline-none focus:text-primary transition-colors" id="mobile-menu-button">
+           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+           </svg>
+         </button>
+       </div>
+     </div>
+     
+     <!-- Mobile menu -->
+     <div class="md:hidden hidden" id="mobile-menu">
+       <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+         {% if lang == 'ro' %}
+           <a href="{{ '/ro/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.ro.nav.home }}</a>
+           <a href="{{ '/ro/despre/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.ro.nav.about }}</a>
+           <div class="px-3 py-2">
+             <div class="text-gray-700 font-medium mb-2">{{ site.ro.nav.services }}</div>
+             <div class="ml-4 space-y-1">
+               <a href="{{ '/ro/servicii-rag/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.ro.nav.rag }}</a>
+               <a href="{{ '/ro/bioinformatica/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.ro.nav.bioinformatics }}</a>
+               <a href="{{ '/ro/conformitate-legea-ai-ue/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.ro.nav.eu_compliance }}</a>
+               <a href="{{ '/ro/computer-vision/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.ro.nav.vision }}</a>
+               <a href="{{ '/ro/contabilitate-automata/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.ro.nav.accounting }}</a>
+             </div>
+           </div>
+           <a href="{{ '/ro/contact/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.ro.nav.contact }}</a>
+         {% else %}
+           <a href="{{ '/en/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.en.nav.home }}</a>
+           <a href="{{ '/en/about/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.en.nav.about }}</a>
+           <div class="px-3 py-2">
+             <div class="text-gray-700 font-medium mb-2">{{ site.en.nav.services }}</div>
+             <div class="ml-4 space-y-1">
+               <a href="{{ '/en/rag-services/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.en.nav.rag }}</a>
+               <a href="{{ '/en/bioinformatics/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.en.nav.bioinformatics }}</a>
+               <a href="{{ '/en/eu-ai-act-compliance/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.en.nav.eu_compliance }}</a>
+               <a href="{{ '/en/computer-vision/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.en.nav.vision }}</a>
+               <a href="{{ '/en/automated-accounting/' | url }}" class="block py-1 text-sm text-gray-600 hover:text-primary transition-colors">{{ site.en.nav.accounting }}</a>
+             </div>
+           </div>
+           <a href="{{ '/en/contact/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.en.nav.contact }}</a>
+         {% endif %}
+       </div>
+     </div>
     </div>
   </nav>
 </header>
-<main class="site-main">
+<main class="min-h-screen">
   {{ content | safe }}
 </main>
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</h3>
-        <p>{% if lang == 'ro' %}{{ site.ro.footer.tagline }}{% else %}{{ site.en.footer.tagline }}{% endif %}</p>
+<footer class="bg-gray-900 text-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="space-y-4">
+        <div class="flex items-center space-x-3">
+          <img src="{% if lang == 'ro' %}{{ '/assets/images/logo_ro.png' | url }}{% else %}{{ '/assets/images/logo_en.png' | url }}{% endif %}" 
+               alt="{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}" 
+               class="h-8 w-auto filter brightness-0 invert">
+          <h3 class="text-xl font-bold">{% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}</h3>
+        </div>
+        <p class="text-gray-300 leading-relaxed">{% if lang == 'ro' %}{{ site.ro.footer.tagline }}{% else %}{{ site.en.footer.tagline }}{% endif %}</p>
       </div>
-      <div class="footer-section">
-        <h4>{% if lang == 'ro' %}{{ site.ro.footer.services_title }}{% else %}{{ site.en.footer.services_title }}{% endif %}</h4>
-        <ul>
+      <div>
+        <h4 class="text-lg font-semibold mb-4">{% if lang == 'ro' %}{{ site.ro.footer.services_title }}{% else %}{{ site.en.footer.services_title }}{% endif %}</h4>
+        <ul class="space-y-2">
           {% if lang == 'ro' %}
-            <li><a href="{{ '/ro/servicii/' | url }}">Pipeline-uri RAG</a></li>
-            <li><a href="{{ '/ro/servicii/' | url }}">AI în Cloud</a></li>
-            <li><a href="{{ '/ro/servicii/' | url }}">Consultanță AI</a></li>
+            <li><a href="{{ '/ro/servicii/' | url }}" class="text-gray-300 hover:text-white transition-colors">Pipeline-uri RAG</a></li>
+            <li><a href="{{ '/ro/servicii/' | url }}" class="text-gray-300 hover:text-white transition-colors">AI în Cloud</a></li>
+            <li><a href="{{ '/ro/servicii/' | url }}" class="text-gray-300 hover:text-white transition-colors">Consultanță AI</a></li>
           {% else %}
-            <li><a href="{{ '/en/services/' | url }}">RAG Pipelines</a></li>
-            <li><a href="{{ '/en/services/' | url }}">Cloud AI</a></li>
-            <li><a href="{{ '/en/services/' | url }}">AI Consulting</a></li>
+            <li><a href="{{ '/en/services/' | url }}" class="text-gray-300 hover:text-white transition-colors">RAG Pipelines</a></li>
+            <li><a href="{{ '/en/services/' | url }}" class="text-gray-300 hover:text-white transition-colors">Cloud AI</a></li>
+            <li><a href="{{ '/en/services/' | url }}" class="text-gray-300 hover:text-white transition-colors">AI Consulting</a></li>
           {% endif %}
         </ul>
       </div>
-      <div class="footer-section">
-        <h4>{% if lang == 'ro' %}{{ site.ro.footer.tech_title }}{% else %}{{ site.en.footer.tech_title }}{% endif %}</h4>
-        <ul>
-          <li>Google Cloud Platform</li>
-          <li>Amazon Web Services</li>
-          <li>Microsoft Azure</li>
+      <div>
+        <h4 class="text-lg font-semibold mb-4">{% if lang == 'ro' %}{{ site.ro.footer.tech_title }}{% else %}{{ site.en.footer.tech_title }}{% endif %}</h4>
+        <ul class="space-y-2">
+          <li class="text-gray-300">Google Cloud Platform</li>
+          <li class="text-gray-300">Amazon Web Services</li>
+          <li class="text-gray-300">Microsoft Azure</li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 {% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}. {% if lang == 'ro' %}{{ site.ro.footer.copyright }}{% else %}{{ site.en.footer.copyright }}{% endif %}</p>
-    </div>
-  </div>
-</footer>
-</body>
-</html>
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+      <p class="text-gray-400">&copy; 2024 {% if lang == 'ro' %}{{ site.ro.title }}{% else %}{{ site.en.title }}{% endif %}. {% if lang == 'ro' %}{{ site.ro.footer.copyright }}{% else %}{{ site.en.footer.copyright }}{% endif %}</p>
+         </div>
+   </div>
+ </footer>
+ 
+ <script>
+   // Mobile menu toggle
+   document.addEventListener('DOMContentLoaded', function() {
+     const mobileMenuButton = document.getElementById('mobile-menu-button');
+     const mobileMenu = document.getElementById('mobile-menu');
+     
+     if (mobileMenuButton && mobileMenu) {
+       mobileMenuButton.addEventListener('click', function() {
+         mobileMenu.classList.toggle('hidden');
+       });
+     }
+     
+     // Scroll animations
+     const observerOptions = {
+       threshold: 0.1,
+       rootMargin: '0px 0px -50px 0px'
+     };
+     
+     const observer = new IntersectionObserver((entries) => {
+       entries.forEach(entry => {
+         if (entry.isIntersecting) {
+           entry.target.classList.add('revealed');
+         }
+       });
+     }, observerOptions);
+     
+     // Observe all elements with fade-in-up class
+     document.querySelectorAll('.fade-in-up, .scroll-reveal').forEach(el => {
+       observer.observe(el);
+     });
+     
+     // Stagger animations for cards
+     document.querySelectorAll('.feature-card, .use-case-card, .benefit-card').forEach((card, index) => {
+       card.classList.add('fade-in-up', `stagger-${(index % 6) + 1}`);
+       observer.observe(card);
+     });
+   });
+ </script>
+ </body>
+ </html>

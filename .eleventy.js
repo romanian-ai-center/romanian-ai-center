@@ -16,6 +16,7 @@ module.exports = function (eleventyConfig) {
 
   // Folders to copy to output folder
   eleventyConfig.addPassthroughCopy("assets");
+  eleventyConfig.addPassthroughCopy("favicon_io");
 };
 
 function extractExcerpt(article) {
