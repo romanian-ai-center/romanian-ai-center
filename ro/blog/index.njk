@@ -1,0 +1,48 @@
+---
+layout: base-layout.njk
+lang: ro
+permalink: /ro/blog/
+title: "Blog"
+description: "Articole despre sisteme AI practice, RAG și arhitecturi multi-agent."
+---
+
+<section class="relative bg-gradient-to-br from-primary via-purple-600 to-blue-600 text-white py-16 lg:py-24 overflow-hidden">
+  <div class="absolute inset-0 bg-black/10"></div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Blog</h1>
+      <p class="text-lg md:text-xl opacity-90 max-w-3xl mx-auto">Articole despre AI aplicat în producție: RAG, agenți și implementări scalabile în cloud.</p>
+    </div>
+  </div>
+  <div class="neuron-bg"></div>
+  <div class="absolute inset-0 bg-[url('/assets/svg/neuron-bg.svg')] opacity-10 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/10"></div>
+  <svg class="absolute bottom-0 left-0 right-0" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,96L60,74.7C120,53,240,11,360,16C480,21,600,75,720,90.7C840,107,960,85,1080,69.3C1200,53,1320,43,1380,37.3L1440,32L1440,140L1380,140C1320,140,1200,140,1080,140C960,140,840,140,720,140C600,140,480,140,360,140C240,140,120,140,60,140L0,140Z" fill="white"/></svg>
+</section>
+
+<section class="py-12 md:py-16 px-4 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for post in collections.blog_ro | reverse %}
+        <article class="bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary/30 hover:shadow-xl transition-all duration-300 overflow-hidden group">
+          <a href="{{ post.url }}" class="block p-6">
+            <div class="text-xs uppercase tracking-wide text-primary font-semibold mb-2">{{ post.date.toLocaleDateString('ro-RO') }}</div>
+            <h2 class="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors mb-2">{{ post.data.title }}</h2>
+            {% if post.data.description %}
+              <p class="text-gray-600">{{ post.data.description }}</p>
+            {% endif %}
+          </a>
+          <div class="px-6 pb-6">
+            <a href="{{ post.url }}" class="inline-flex items-center text-primary font-semibold">Citește mai mult
+              <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+      {% else %}
+        <div class="col-span-full text-center text-gray-600">Momentan nu există articole. Revenim în curând.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+

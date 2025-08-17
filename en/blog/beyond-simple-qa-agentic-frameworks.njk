@@ -1,0 +1,179 @@
+---
+layout: base-layout.njk
+lang: en
+permalink: /en/blog/beyond-simple-qa-agentic-frameworks/
+title: "Beyond Simple Q&A: A Practical Look at Agentic Frameworks for RAG"
+date: 2025-05-14
+tags: [blog]
+description: "When basic RAG chains hit limits, agentic frameworks like LangGraph, Crew.AI, and Google ADK enable self-correction, planning, and orchestration. Here’s how we pick and use them."
+translation_key: agentic-frameworks-rag
+---
+
+<article class="bg-white">
+  <header class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm uppercase tracking-wider font-semibold mb-3">RAG Agents & Frameworks</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Beyond Simple Q&A: A Practical Look at Agentic Frameworks for RAG</h1>
+      <p class="mt-4 text-lg md:text-xl text-white/90 max-w-2xl">Moving from linear pipelines to goal-driven agents that can plan, use tools, and self-correct across messy, real-world data.</p>
+      <div class="mt-6 text-white/80 text-sm">By CRIA • {{ page.date.toDateString() }}</div>
+    </div>
+    <div class="neuron-bg"></div>
+  </header>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 prose prose-indigo prose-lg">
+    <p>If you're working with Large Language Models (LLMs), you've probably built a Retrieval-Augmented Generation (RAG) pipeline. It's a great first step: fetch a document, stuff it into a prompt, and get a context-aware answer. But what happens when the first document isn't right? Or when the user's question requires multiple steps and tools to answer?</p>
+
+    <p>That's when you move from simple pipelines to <strong>agentic systems</strong>. An "agent" is just an LLM wrapped in a control loop that allows it to use tools, reason about the results, and plan its next steps to achieve a goal.</p>
+
+    <p>At our company, we've gone deep into building agentic systems, especially for complex RAG. The goal isn't just to answer questions, but to create a system that can reliably find and synthesize information from our messy, real-world data sources. This post is a rundown of the frameworks we've worked with, why we chose what we did, and how you can think about them for your own projects.</p>
+
+    <h2>The Two Foundational Tools: LangChain vs. LangGraph</h2>
+    <h3>LangChain</h3>
+    <p>LangChain’s core idea is the <em>LangChain Expression Language</em> (LCEL), which lets you pipe components together. The flow is a Directed Acyclic Graph (DAG), meaning it goes one way, from start to finish.</p>
+    <pre><code>chain = prompt | model | output_parser</code></pre>
+    <p>It’s straightforward and clean.</p>
+    <p><strong>Use it for:</strong></p>
+    <ul>
+      <li><strong>Basic RAG</strong>: Retrieve a document, create a prompt, get an answer.</li>
+      <li><strong>Summarization</strong>: Feed text into a summarization chain.</li>
+      <li><strong>Data Extraction</strong>: Pull structured JSON from a block of text.</li>
+    </ul>
+    <p>For our first internal documentation chatbot, this was perfect. It was predictable and easy to debug.</p>
+
+    <h3>LangGraph</h3>
+    <p>The problem with a simple chain is that it can't recover from errors. If the first document retrieval returns irrelevant junk, the chain fails. <strong>LangGraph</strong>, built on top of LangChain, solves this by letting you define your workflow as a graph with nodes and edges. The key difference? It allows for <em>cycles</em> (loops).</p>
+    <p>This means an agent can try something, check the result, and if it's not good enough, loop back to try again with a different tool or a refined query. It works by passing a <em>state</em> object between nodes, so the agent always knows what's been done and what the current goal is.</p>
+    <p><strong>Use it for:</strong></p>
+    <ul>
+      <li><strong>Self-Correcting RAG</strong>: If a document search fails, the agent can rephrase the query and search again.</li>
+      <li><strong>Multi-agent Workflows</strong>: A supervisor agent can route tasks to a search or analysis agent, looping until the answer is ready.</li>
+      <li><strong>Human-in-the-Loop</strong>: The graph can pause for approval before continuing.</li>
+    </ul>
+
+    <div class="not-prose rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 font-semibold text-gray-700">Feature</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">LangChain</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">LangGraph</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr>
+            <td class="px-4 py-3">Core Abstraction</td>
+            <td class="px-4 py-3">Chain (using LCEL)</td>
+            <td class="px-4 py-3">Graph of Nodes</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">Workflow Type</td>
+            <td class="px-4 py-3">Linear (Directed Acyclic Graph)</td>
+            <td class="px-4 py-3">Cyclical (graphs with loops)</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3">State Management</td>
+            <td class="px-4 py-3">Generally stateless per run</td>
+            <td class="px-4 py-3">Explicit, persistent state object</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">Primary Use</td>
+            <td class="px-4 py-3">Simple, predictable sequences</td>
+            <td class="px-4 py-3">Complex, dynamic, stateful agents</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Our Takeaway:</strong> Start with LangChain. Once you find yourself wishing your chain could “try again” or “decide” what to do next based on an output, it's time to move to LangGraph.</p>
+
+    <h2>How We Build Agentic RAG with LangGraph</h2>
+    <p>Our support team must answer complex questions referencing technical docs, past tickets, and engineering wikis. A simple RAG system wasn't enough. Here’s the agentic workflow we built with LangGraph:</p>
+    <ol>
+      <li><strong>Node 1: Deconstruct Query</strong>. The initial question (e.g., “Customer X sees a timeout on API endpoint Y with version Z”) is turned into a structured plan with search terms.</li>
+      <li><strong>Node 2: Parallel Retrieval</strong>. The agent searches multiple sources at once: vector DB for docs, Elasticsearch for tickets, and Confluence for wikis.</li>
+      <li><strong>Conditional Edge: Validate Content</strong>. Documents are quickly scored for relevance.
+        <ul>
+          <li>If scores are high → proceed to synthesis.</li>
+          <li>If scores are low → loop back to Deconstruct Query with a hint to “think again” and re-generate terms.</li>
+        </ul>
+      </li>
+      <li><strong>Node 3: Synthesize Answer</strong>. Relevant documents are combined into a final prompt; the LLM outputs a step-by-step answer with links to sources.</li>
+      <li><strong>Node 4: Final Output</strong>. The answer is presented to the support engineer.</li>
+    </ol>
+
+    <div class="not-prose rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-indigo-900">
+      <p class="m-0"><strong>Why this works:</strong> cyclical, stateful control makes the RAG system resilient to bad retrievals and partial failures.</p>
+    </div>
+
+    <h2>Orchestration Frameworks: When You Need a Team of Agents</h2>
+    <p>Sometimes, a single agent isn't enough. You need multiple specialized agents to collaborate. This is where higher-level orchestration frameworks come in.</p>
+    <ul>
+      <li><strong>Crew.AI</strong>: Define a “crew” with roles (role, goal, backstory). Great for workflows like content generation where a researcher (RAG) hands off to a writer.</li>
+      <li><strong>Google’s ADK</strong>: An opinionated, production-focused framework with patterns like SequentialAgent/ParallelAgent. Feels like a factory for a fleet that already knows how to collaborate.</li>
+    </ul>
+
+    <div class="not-prose rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 font-semibold text-gray-700">Framework</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">Core Idea</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">Best For</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr>
+            <td class="px-4 py-3">Microsoft AutoGen</td>
+            <td class="px-4 py-3">Agents solve tasks by “chatting” with each other.</td>
+            <td class="px-4 py-3">Dynamic problems with unclear solution paths.</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">LlamaIndex</td>
+            <td class="px-4 py-3">Data framework for connecting LLMs to external data.</td>
+            <td class="px-4 py-3">Data-heavy RAG, advanced retrieval and ingestion.</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3">Haystack</td>
+            <td class="px-4 py-3">Open-source framework for search & production RAG.</td>
+            <td class="px-4 py-3">Enterprise-grade, scalable IR and RAG pipelines.</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">MetaGPT</td>
+            <td class="px-4 py-3">Agents mimic company roles using SOPs.</td>
+            <td class="px-4 py-3">Structured tasks like code generation or project plans.</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3">SuperAGI</td>
+            <td class="px-4 py-3">End-to-end platform to build, deploy, and monitor agents.</td>
+            <td class="px-4 py-3">Teams wanting a full platform and GUI out-of-the-box.</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">Semantic Kernel</td>
+            <td class="px-4 py-3">SDK to connect LLMs to conventional code (C#, Python).</td>
+            <td class="px-4 py-3">Integrating LLM reasoning into existing applications.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Conclusion</h2>
+    <p>The journey into agentic AI is a trade-off between control and convenience.</p>
+    <ul>
+      <li><strong>LangChain</strong> gives you simple, linear building blocks. It’s the place to start.</li>
+      <li><strong>LangGraph</strong> gives you granular control over complex, looping logic for robust, self-correcting agents.</li>
+      <li><strong>Crew.AI</strong> and <strong>Google’s ADK</strong> abstract orchestration for teams of agents.</li>
+    </ul>
+    <p>For our team, the sweet spot for advanced RAG has been using powerful data frameworks like <strong>LlamaIndex</strong> for the retrieval part and <strong>LangGraph</strong> for the agent's core reasoning and tool-use logic. By choosing the right framework for the job, you can move beyond simple demos to build AI systems that can actually reason, plan, and solve real-world problems.</p>
+
+    <h2>References</h2>
+    <ul>
+      <li><a href="https://www.langchain.com/" target="_blank" rel="noopener">LangChain</a></li>
+      <li><a href="https://www.langchain.com/langgraph" target="_blank" rel="noopener">LangGraph</a></li>
+      <li><a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener">Google’s ADK</a></li>
+      <li><a href="https://docs.crewai.com/en/introduction" target="_blank" rel="noopener">Crew.AI</a></li>
+    </ul>
+  </div>
+</article>
+
+

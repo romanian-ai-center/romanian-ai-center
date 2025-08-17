@@ -18,14 +18,30 @@
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   
   <!-- Multilingual SEO - hreflang tags -->
+  {% set roCounterpart = null %}
+  {% if collections.blog_ro and translation_key %}
+    {% for p in collections.blog_ro %}
+      {% if p.data and p.data.translation_key == translation_key %}
+        {% set roCounterpart = p.url %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% set enCounterpart = null %}
+  {% if collections.blog_en and translation_key %}
+    {% for p in collections.blog_en %}
+      {% if p.data and p.data.translation_key == translation_key %}
+        {% set enCounterpart = p.url %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
   {% if lang == 'en' %}
     <link rel="alternate" hreflang="en" href="{{ site.url }}{{ page.url }}">
-    <link rel="alternate" hreflang="ro" href="{{ site.url }}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') }}">
+    <link rel="alternate" hreflang="ro" href="{{ site.url }}{{ roCounterpart or (page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/')) }}">
     <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ page.url }}">
   {% else %}
     <link rel="alternate" hreflang="ro" href="{{ site.url }}{{ page.url }}">
-    <link rel="alternate" hreflang="en" href="{{ site.url }}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') }}">
-    <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') }}">
+    <link rel="alternate" hreflang="en" href="{{ site.url }}{{ enCounterpart or (page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/')) }}">
+    <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ (enCounterpart or (page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/'))) }}">
   {% endif %}
   
   <!-- Open Graph Meta Tags -->
@@ -149,6 +165,7 @@
         {% if lang == 'ro' %}
           <a href="{{ '/ro/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.ro.nav.home }}</a>
           <a href="{{ '/ro/despre/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.ro.nav.about }}</a>
+          <a href="{{ '/ro/blog/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.ro.nav.blog }}</a>
           <div class="relative group">
             <a href="{{ '/ro/servicii/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
               {{ site.ro.nav.services }}
@@ -170,6 +187,7 @@
         {% else %}
           <a href="{{ '/en/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.en.nav.home }}</a>
           <a href="{{ '/en/about/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.en.nav.about }}</a>
+          <a href="{{ '/en/blog/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.en.nav.blog }}</a>
           <div class="relative group">
             <a href="{{ '/en/services/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
               {{ site.en.nav.services }}
@@ -190,16 +208,30 @@
           <a href="{{ '/en/contact/' | url }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">{{ site.en.nav.contact }}</a>
         {% endif %}
                  <div class="flex items-center space-x-2 ml-6">
-           <a href="{% if lang == 'ro' %}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors {% if lang != 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">EN</a>
-           <a href="{% if lang == 'en' %}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/ro/' | url }}{% endif %}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors {% if lang == 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">RO</a>
+           {% set toEn = enCounterpart or (page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') | replace('/contact/', '/contact/')) %}
+           {% set toRo = roCounterpart or (page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') | replace('/contact/', '/contact/')) %}
+           {% if lang == 'ro' %}
+             <a href="{{ toEn | url }}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-primary">EN</a>
+             <a href="{{ page.url | url }}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors bg-primary text-white">RO</a>
+           {% else %}
+             <a href="{{ page.url | url }}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors bg-primary text-white">EN</a>
+             <a href="{{ toRo | url }}" class="px-3 py-1 rounded-md text-sm font-medium transition-colors text-gray-600 hover:text-primary">RO</a>
+           {% endif %}
          </div>
        </div>
        
        <!-- Mobile menu button -->
        <div class="md:hidden flex items-center">
          <div class="flex items-center space-x-2 mr-4">
-           <a href="{% if lang == 'ro' %}{{ page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/en/' | url }}{% endif %}" class="px-2 py-1 rounded text-xs font-medium transition-colors {% if lang != 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">EN</a>
-           <a href="{% if lang == 'en' %}{{ page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') | replace('/contact/', '/contact/') | url }}{% else %}{{ '/ro/' | url }}{% endif %}" class="px-2 py-1 rounded text-xs font-medium transition-colors {% if lang == 'ro' %}bg-primary text-white{% else %}text-gray-600 hover:text-primary{% endif %}">RO</a>
+           {% set toEn = enCounterpart or (page.url | replace('/ro/', '/en/') | replace('/despre/', '/about/') | replace('/servicii/', '/services/') | replace('/contabilitate-automata/', '/automated-accounting/') | replace('/servicii-rag/', '/rag-services/') | replace('/bioinformatica/', '/bioinformatics/') | replace('/conformitate-legea-ai-ue/', '/eu-ai-act-compliance/') | replace('/contact/', '/contact/')) %}
+           {% set toRo = roCounterpart or (page.url | replace('/en/', '/ro/') | replace('/about/', '/despre/') | replace('/services/', '/servicii/') | replace('/automated-accounting/', '/contabilitate-automata/') | replace('/rag-services/', '/servicii-rag/') | replace('/bioinformatics/', '/bioinformatica/') | replace('/eu-ai-act-compliance/', '/conformitate-legea-ai-ue/') | replace('/contact/', '/contact/')) %}
+           {% if lang == 'ro' %}
+             <a href="{{ toEn | url }}" class="px-2 py-1 rounded text-xs font-medium transition-colors text-gray-600 hover:text-primary">EN</a>
+             <a href="{{ page.url | url }}" class="px-2 py-1 rounded text-xs font-medium transition-colors bg-primary text-white">RO</a>
+           {% else %}
+             <a href="{{ page.url | url }}" class="px-2 py-1 rounded text-xs font-medium transition-colors bg-primary text-white">EN</a>
+             <a href="{{ toRo | url }}" class="px-2 py-1 rounded text-xs font-medium transition-colors text-gray-600 hover:text-primary">RO</a>
+           {% endif %}
          </div>
          <button type="button" class="text-gray-700 hover:text-primary focus:outline-none focus:text-primary transition-colors" id="mobile-menu-button">
            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -215,6 +247,7 @@
          {% if lang == 'ro' %}
            <a href="{{ '/ro/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.ro.nav.home }}</a>
            <a href="{{ '/ro/despre/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.ro.nav.about }}</a>
+           <a href="{{ '/ro/blog/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.ro.nav.blog }}</a>
            <div class="px-3 py-2">
              <div class="text-gray-700 font-medium mb-2">{{ site.ro.nav.services }}</div>
              <div class="ml-4 space-y-1">
@@ -229,6 +262,7 @@
          {% else %}
            <a href="{{ '/en/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.en.nav.home }}</a>
            <a href="{{ '/en/about/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.en.nav.about }}</a>
+           <a href="{{ '/en/blog/' | url }}" class="block px-3 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors">{{ site.en.nav.blog }}</a>
            <div class="px-3 py-2">
              <div class="text-gray-700 font-medium mb-2">{{ site.en.nav.services }}</div>
              <div class="ml-4 space-y-1">

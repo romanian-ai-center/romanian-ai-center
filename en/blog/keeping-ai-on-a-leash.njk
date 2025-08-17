@@ -1,0 +1,135 @@
+---
+layout: base-layout.njk
+lang: en
+permalink: /en/blog/keeping-ai-on-a-leash/
+title: "Keeping AI on a Leash: A Practical Guide to Guardrails for RAG and Agents"
+date: 2025-01-22
+tags: [blog]
+description: "A no-fluff, layered approach to guardrails for RAG and agentic systems: input screening, retrieval access control, output checks, and a simple topic guardrail example."
+translation_key: keeping-ai-on-a-leash
+---
+
+<article class="bg-white">
+  <header class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm uppercase tracking-wider font-semibold mb-3">RAG Safety & Guardrails</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Keeping AI on a Leash: A Practical Guide to Guardrails for RAG and Agents</h1>
+      <p class="mt-4 text-lg md:text-xl text-white/90 max-w-2xl">A layered, production-ready approach for safe, accurate, and responsible Retrieval-Augmented Generation and agent systems.</p>
+      <div class="mt-6 text-white/80 text-sm">By CRIA • {{ page.date.toDateString() }}</div>
+    </div>
+    <div class="neuron-bg"></div>
+  </header>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 prose prose-indigo prose-lg">
+    <p>Retrieval-Augmented Generation (RAG) systems and AI agents are transforming how we access information and automate work. By connecting large language models (LLMs) to your company's data, they can answer complex questions, summarize documents, and act on your behalf.</p>
+
+    <p>But what happens when a RAG system retrieves a document with sensitive financial data and shows it to the wrong person? Or when an agent, trying to be helpful, acts on a misunderstood command?</p>
+
+    <p>At our company, we build reliable AI systems by implementing <strong>guardrails</strong>. Think of them as the essential safety checks and balances for your AI. They aren't there to limit the AI's power, but to guide it—ensuring it operates safely, accurately, and responsibly. This is our practical, no-fluff guide to how we implement them, especially for RAG.</p>
+
+    <h2>Why Guardrails are Crucial for RAG</h2>
+    <p>RAG is fantastic for reducing hallucinations and grounding AI answers in factual documents. But the knowledge base itself introduces new risks. Your documents—not the LLM—become the primary source of potential problems.</p>
+    <p>Here are the RAG-specific challenges we focus on:</p>
+    <ul>
+      <li><strong>Sensitive Data Leakage</strong>: Internal documents can include PII, confidential project details, and financial records. A RAG system without guardrails can leak data.</li>
+      <li><strong>Access Control</strong>: Presence ≠ permission. The RAG system must enforce the same permission hierarchies as the source systems.</li>
+      <li><strong>Inaccurate or Outdated Information</strong>: If sources are wrong or stale, the answer will be too.</li>
+      <li><strong>Toxicity and Bias</strong>: Biases and toxic language in documents can surface in generated outputs.</li>
+    </ul>
+
+    <div class="not-prose rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-indigo-900">
+      <p class="m-0"><strong>Production takeaway:</strong> Guardrails turn a powerful prototype into a <em>trustworthy</em> system.</p>
+    </div>
+
+    <h2>Our Layered Approach to RAG Safety</h2>
+    <p>A robust safety strategy requires multiple layers of defense. We build checks <em>before</em> the query is run, <em>after</em> the data is retrieved, and <em>before</em> the final answer is shown.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Goal</th>
+          <th>Typical Checks</th>
+          <th>Failure Mode Prevented</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Input Guardrails</strong></td>
+          <td>Validate and sanitize the user request</td>
+          <td>Topic relevance; PII redaction; abuse/threat filters</td>
+          <td>Off-scope queries; logging sensitive input</td>
+        </tr>
+        <tr>
+          <td><strong>Retrieval Guardrails</strong></td>
+          <td>Control which documents reach the LLM</td>
+          <td><strong>Access control enforcement</strong>; policy filters; freshness checks</td>
+          <td>Unauthorized disclosure; outdated sources</td>
+        </tr>
+        <tr>
+          <td><strong>Output Guardrails</strong></td>
+          <td>Review the model's final answer</td>
+          <td>Toxicity filter; grounding/citation check; jailbreak detection</td>
+          <td>Hallucinations; policy violations; prompt injection</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>1) Input Guardrails (The Front Door)</h3>
+    <ul>
+      <li><strong>Topic Relevance Check</strong>: Keep the assistant on-topic. A support bot shouldn't answer medical advice or politics.</li>
+      <li><strong>PII Redaction</strong>: Strip names, emails, and account numbers before processing or logging.</li>
+    </ul>
+
+    <h3>2) Retrieval Guardrails (The Document Checkpoint)</h3>
+    <p>This is the most critical layer for RAG. After relevant documents are found—but <em>before</em> generation—we enforce:</p>
+    <ul>
+      <li><strong>Access Control Enforcement</strong>: Check the user's permissions against <em>every</em> retrieved document. Unauthorized docs never enter the LLM context.</li>
+      <li><strong>Freshness & Policy Filters</strong>: Drop outdated or policy-violating content.</li>
+    </ul>
+
+    <h3>3) Output Guardrails (The Final Review)</h3>
+    <ul>
+      <li><strong>Toxicity Filtering</strong>: Block hateful, abusive, or unprofessional language.</li>
+      <li><strong>Grounding and Citation Check</strong>: Ensure claims are supported by retrieved content.</li>
+      <li><strong>Anti-Jailbreak Scan</strong>: Detect attempts to bypass rules or expose prompts.</li>
+    </ul>
+
+    <h2>A Simple, Practical Example: Topic Guardrail</h2>
+    <p>Use a fast, inexpensive model to act as a “bouncer” for relevance. Prompt:</p>
+    <pre><code>You are a topic classification guardrail. Your job is to determine if a user query is related to our company's software products. Respond with only a single word: RELEVANT or IRRELEVANT.
+
+User Query: "{{user_query}}"</code></pre>
+
+    <p>Pseudocode logic:</p>
+    <pre><code class="language-python">def handle_user_query(user_query):
+    # Use a fast, cheap LLM (like Gemini Flash) for this check
+    topic_result = check_topic_relevance_with_llm(user_query)  # returns "RELEVANT" or "IRRELEVANT"
+
+    if topic_result == "RELEVANT":
+        # Proceed with the full RAG process
+        answer = run_rag_pipeline(user_query)
+        return answer
+    else:
+        # If off-topic, block and set expectation
+        return "I'm sorry, I can only answer questions related to our software products."
+
+# Example usage
+handle_user_query("How do I reset my password?")  # -> Proceeds to RAG
+handle_user_query("What are your thoughts on the upcoming election?")  # -> Blocked
+    </code></pre>
+
+    <h2>Engineering for Reliability: It's Still Software</h2>
+    <ul>
+      <li><strong>Modularity</strong>: Compose small, specialized components (input, retrieval, generation) rather than one monolith.</li>
+      <li><strong>Observability</strong>: Structured logging of query, retrieved docs, and final answer for troubleshooting.</li>
+      <li><strong>Least Privilege</strong>: Grant only the minimum permissions required. Limit blast radius by design.</li>
+    </ul>
+
+    <h2>Final Thoughts</h2>
+    <p>Implementing guardrails isn't just a technical task—it's core to responsible AI development. With a layered defense—from input screening and access control to output checks—we can build RAG systems and agents that are powerful, safe, and genuinely helpful.</p>
+  </div>
+</article>
+
+

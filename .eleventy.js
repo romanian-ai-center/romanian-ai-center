@@ -14,6 +14,38 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addShortcode('excerpt', article => extractExcerpt(article));
 
+  // Blog collection grouped by 'blog' tag
+  eleventyConfig.addCollection('blog', (collectionApi) => {
+    return collectionApi.getFilteredByTag('blog');
+  });
+
+  // Language-specific blog collections
+  eleventyConfig.addCollection('blog_en', (collectionApi) => {
+    return collectionApi
+      .getFilteredByTag('blog')
+      .filter((item) => item.url && item.url.startsWith('/en/'));
+  });
+
+  eleventyConfig.addCollection('blog_ro', (collectionApi) => {
+    return collectionApi
+      .getFilteredByTag('blog')
+      .filter((item) => item.url && item.url.startsWith('/ro/'));
+  });
+
+  // Helper: find counterpart URL by translation_key across languages
+  eleventyConfig.addFilter('findCounterpartUrl', (page, collections, targetLang) => {
+    try {
+      if (!page || !page.data || !page.data.translation_key) return null;
+      const key = page.data.translation_key;
+      const pool = targetLang === 'ro' ? collections.blog_ro : collections.blog_en;
+      if (!pool || !Array.isArray(pool)) return null;
+      const match = pool.find((item) => item && item.data && item.data.translation_key === key);
+      return match ? match.url : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
   // Folders to copy to output folder
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("favicon_io");

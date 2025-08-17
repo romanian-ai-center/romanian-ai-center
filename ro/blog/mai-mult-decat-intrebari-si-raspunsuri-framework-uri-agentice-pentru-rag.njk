@@ -1,0 +1,179 @@
+---
+layout: base-layout.njk
+lang: ro
+permalink: /ro/blog/mai-mult-decat-intrebari-si-raspunsuri-framework-uri-agentice-pentru-rag/
+title: "Mai mult decât simple întrebări și răspunsuri: O privire practică asupra Framework-urilor Agentice pentru RAG"
+date: 2025-05-15
+tags: [blog]
+description: "Când RAG liniar nu mai ajunge, framework-urile agentice (LangGraph, Crew.AI, ADK) aduc auto-corecție, planificare și orchestrare. Iată cum alegem și le aplicăm."
+translation_key: agentic-frameworks-rag
+---
+
+<article class="bg-white">
+  <header class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm uppercase tracking-wider font-semibold mb-3">Agenți RAG & Framework-uri</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Mai mult decât simple întrebări și răspunsuri: O privire practică asupra Framework-urilor Agentice pentru RAG</h1>
+      <p class="mt-4 text-lg md:text-xl text-white/90 max-w-2xl">De la pipeline-uri liniare la agenți orientați pe obiectiv, capabili să planifice, să folosească unelte și să se auto-corecteze în datele reale, dezordonate.</p>
+      <div class="mt-6 text-white/80 text-sm">De CRIA • {{ page.date.toLocaleDateString('ro-RO') }}</div>
+    </div>
+    <div class="neuron-bg"></div>
+  </header>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 prose prose-indigo prose-lg">
+    <p>Dacă lucrați cu Modele Lingvistice Mari (LLM), probabil ați construit deja un pipeline de Generare Augmentată prin Regăsire (RAG). Este un prim pas excelent: extrageți un document, îl inserați într-un prompt și obțineți un răspuns contextualizat. Dar ce se întâmplă atunci când primul document nu este cel corect? Sau când întrebarea utilizatorului necesită mai mulți pași și unelte pentru a primi un răspuns?</p>
+
+    <p>Atunci este momentul să treceți de la pipeline-uri simple la <strong>sisteme agentice</strong>. Un „agent” este, în esență, un LLM încapsulat într-o buclă de control care îi permite să folosească unelte, să raționeze pe baza rezultatelor și să-și planifice următorii pași pentru a atinge un obiectiv.</p>
+
+    <p>În compania noastră, am aprofundat crearea de sisteme agentice, în special pentru RAG complex. Scopul nu este doar să răspundem la întrebări, ci să construim un sistem care poate găsi și sintetiza informații în mod fiabil din surse de date dezordonate, din lumea reală. Această postare trece în revistă framework-urile cu care am lucrat, de ce am ales ce am ales și cum să gândiți adoptarea pentru propriile proiecte.</p>
+
+    <h2>Cele două unelte fundamentale: LangChain vs. LangGraph</h2>
+    <h3>LangChain</h3>
+    <p>Ideea de bază a LangChain este <em>LangChain Expression Language</em> (LCEL), care vă permite să conectați componentele într-un „lanț”. Fluxul este un Graf Aciclic Dirijat (DAG), adică merge într-o singură direcție, de la început la sfârșit.</p>
+    <pre><code>chain = prompt | model | output_parser</code></pre>
+    <p>Este simplu și curat.</p>
+    <p><strong>Folosiți-l pentru:</strong></p>
+    <ul>
+      <li><strong>RAG de bază</strong>: Regăsiți un document, creați un prompt, obțineți un răspuns.</li>
+      <li><strong>Rezumare</strong>: Introduceți text într-un lanț de rezumare.</li>
+      <li><strong>Extragere de date</strong>: Obțineți JSON structurat dintr-un bloc de text.</li>
+    </ul>
+    <p>Pentru primul nostru chatbot intern de documentație, a fost perfect: previzibil și ușor de depanat.</p>
+
+    <h3>LangGraph</h3>
+    <p>Problema unui lanț simplu este că nu își poate reveni din erori. Dacă prima regăsire întoarce „zgomot”, lanțul eșuează. <strong>LangGraph</strong>, construit peste LangChain, rezolvă aceasta permițând definirea fluxului ca un <em>graf</em> cu noduri și muchii. Diferența cheie? Permite <em>bucle</em>.</p>
+    <p>Asta înseamnă că un agent poate încerca ceva, verifica rezultatul și, dacă nu e suficient, revine în buclă pentru a încerca din nou cu altă unealtă sau o interogare rafinată. Funcționează prin pasarea unui obiect de <em>stare</em> între noduri, astfel încât agentul știe permanent ce s-a făcut și care este ținta curentă.</p>
+    <p><strong>Folosiți-l pentru:</strong></p>
+    <ul>
+      <li><strong>RAG cu auto-corecție</strong>: la eșecul căutării, agentul reformulează și caută din nou.</li>
+      <li><strong>Fluxuri cu mai mulți agenți</strong>: un supervizor direcționează către „agent de căutare” sau „agent de analiză”, în buclă, până la răspuns.</li>
+      <li><strong>Human-in-the-Loop</strong>: graful se poate opri pentru aprobare umană.</li>
+    </ul>
+
+    <div class="not-prose rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 font-semibold text-gray-700">Caracteristică</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">LangChain</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">LangGraph</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr>
+            <td class="px-4 py-3">Abstracție Principală</td>
+            <td class="px-4 py-3">Lanț (LCEL)</td>
+            <td class="px-4 py-3">Graf de Noduri</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">Tip de Workflow</td>
+            <td class="px-4 py-3">Liniar (DAG)</td>
+            <td class="px-4 py-3">Ciclic (cu bucle)</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3">Managementul Stării</td>
+            <td class="px-4 py-3">În general fără stare per rulare</td>
+            <td class="px-4 py-3">Obiect de stare explicit și persistent</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">Utilizare Principală</td>
+            <td class="px-4 py-3">Secvențe simple, previzibile</td>
+            <td class="px-4 py-3">Agenți complecși, dinamici, cu stare</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Recomandarea noastră:</strong> începeți cu LangChain. Când doriți ca lanțul să „reîncerce” sau să „decidă” pasul următor în funcție de un rezultat, treceți la LangGraph.</p>
+
+    <h2>Cum construim RAG Agentic cu LangGraph</h2>
+    <p>Echipa noastră de suport răspunde la întrebări complexe consultând documentație tehnică, tichete istorice și wiki-uri interne. Un RAG simplu nu era suficient. Fluxul agentic:</p>
+    <ol>
+      <li><strong>Nodul 1: Deconstrucția interogării</strong> — întrebarea este transformată într-un plan structurat cu termeni de căutare.</li>
+      <li><strong>Nodul 2: Regăsire în paralel</strong> — căutări simultane în BD vectorială (docs), Elasticsearch (tichete) și Confluence (wiki).</li>
+      <li><strong>Muchie condițională: Validarea conținutului</strong> — scorare rapidă a relevanței.
+        <ul>
+          <li>Scor mare → sinteză.</li>
+          <li>Scor mic → buclă înapoi la deconstrucție cu indiciu „gândește din nou”.</li>
+        </ul>
+      </li>
+      <li><strong>Nodul 3: Sinteza răspunsului</strong> — îmbinare în prompt final; răspuns pas-cu-pas cu linkuri la surse.</li>
+      <li><strong>Nodul 4: Rezultatul final</strong> — prezentare către inginerul de suport.</li>
+    </ol>
+
+    <div class="not-prose rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-indigo-900">
+      <p class="m-0"><strong>De ce funcționează:</strong> controlul ciclic și starea persistentă fac sistemul rezilient la regăsiri slabe și eșecuri parțiale.</p>
+    </div>
+
+    <h2>Framework-uri de Orchestrare: Când ai nevoie de o echipă de agenți</h2>
+    <p>Uneori, un singur agent nu este de ajuns. Ai nevoie de agenți specializați care să colaboreze. Aici intră framework-urile de orchestrare.</p>
+    <ul>
+      <li><strong>Crew.AI</strong>: definești o „echipă” cu roluri (rol, obiectiv, istoric). Excelent pentru creare de conținut: cercetare (RAG) → redactare.</li>
+      <li><strong>Google ADK</strong>: framework orientat producție cu pattern-uri precum SequentialAgent/ParallelAgent; ideal pentru o flotă de agenți.</li>
+    </ul>
+
+    <div class="not-prose rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 font-semibold text-gray-700">Framework</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">Idee principală</th>
+            <th class="px-4 py-3 font-semibold text-gray-700">Ideal pentru</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr>
+            <td class="px-4 py-3">Microsoft AutoGen</td>
+            <td class="px-4 py-3">Agenții rezolvă sarcini „conversând”.</td>
+            <td class="px-4 py-3">Probleme dinamice cu cale neclară către soluție.</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">LlamaIndex</td>
+            <td class="px-4 py-3">Framework de date pentru conectarea LLM-urilor la surse externe.</td>
+            <td class="px-4 py-3">RAG intensiv în date; ingestie & regăsire avansată.</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3">Haystack</td>
+            <td class="px-4 py-3">Framework open-source pentru căutare & RAG producție.</td>
+            <td class="px-4 py-3">IR la scară enterprise și pipeline-uri RAG.</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">MetaGPT</td>
+            <td class="px-4 py-3">Agenți care imită roluri (PM, Inginer) cu SOP-uri.</td>
+            <td class="px-4 py-3">Sarcini foarte structurate: cod, planuri de proiect.</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3">SuperAGI</td>
+            <td class="px-4 py-3">Platformă end-to-end pentru agenți (construcție, deploy, monitorizare).</td>
+            <td class="px-4 py-3">Echipe care vor platformă completă și GUI.</td>
+          </tr>
+          <tr class="bg-gray-50/60">
+            <td class="px-4 py-3">Semantic Kernel</td>
+            <td class="px-4 py-3">SDK ce conectează LLM-urile cu cod convențional (C#, Python).</td>
+            <td class="px-4 py-3">Integrarea raționamentului LLM în aplicații existente.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Concluzie</h2>
+    <p>Călătoria în AI-ul agentic e un compromis între control și conveniență.</p>
+    <ul>
+      <li><strong>LangChain</strong> oferă blocuri liniare simple — locul ideal de început.</li>
+      <li><strong>LangGraph</strong> aduce control granular pentru logică complexă, în bucle — agenți robusti, auto-corectivi.</li>
+      <li><strong>Crew.AI</strong> și <strong>Google ADK</strong> abstractizează orchestrarea echipelor de agenți.</li>
+    </ul>
+    <p>Pentru noi, combinația optimă în RAG avansat a fost <strong>LlamaIndex</strong> pentru stratul de regăsire și <strong>LangGraph</strong> pentru raționament și folosirea uneltelor. Alegând framework-ul potrivit pentru sarcină, depășiți demo-urile și construiți sisteme AI care pot raționa, planifica și rezolva probleme reale.</p>
+
+    <h2>Referințe</h2>
+    <ul>
+      <li><a href="https://www.langchain.com/" target="_blank" rel="noopener">LangChain</a></li>
+      <li><a href="https://www.langchain.com/langgraph" target="_blank" rel="noopener">LangGraph</a></li>
+      <li><a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener">Google ADK</a></li>
+      <li><a href="https://docs.crewai.com/en/introduction" target="_blank" rel="noopener">Crew.AI</a></li>
+    </ul>
+  </div>
+</article>
+
+

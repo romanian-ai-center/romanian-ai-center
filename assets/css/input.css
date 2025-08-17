@@ -4,6 +4,11 @@
 
 /* Custom CSS for CRIA - Romanian Center for AI */
 
+/* Prevent accidental horizontal scrollbars while preserving inner element scroll */
+html, body {
+  overflow-x: hidden;
+}
+
 /* Neural Network Background Animation for Hero Sections */
 .neuron-bg {
   position: absolute;
@@ -17,6 +22,7 @@
   background-size: 120% 120%;
   animation: neuron-scale-pulse 12s ease-in-out infinite;
   pointer-events: none;
+  overflow: hidden; /* Prevent pseudo-elements from causing horizontal overflow */
 }
 
 @keyframes neuron-scale-pulse {

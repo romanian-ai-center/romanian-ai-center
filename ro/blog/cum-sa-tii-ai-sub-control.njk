@@ -1,0 +1,132 @@
+---
+layout: base-layout.njk
+lang: ro
+permalink: /ro/blog/cum-sa-tii-ai-sub-control/
+title: "Cum să ții Inteligența Artificială sub control: Un ghid practic pentru mecanisme de protecție (Guardrails) în RAG și Agenți AI"
+date: 2025-01-23
+tags: [blog]
+description: "Abordare stratificată pentru guardrails în RAG și agenți AI: verificări la intrare, control de acces la regăsire, verificări la ieșire și un exemplu simplu de gardă pe subiect."
+translation_key: keeping-ai-on-a-leash
+---
+
+<article class="bg-white">
+  <header class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm uppercase tracking-wider font-semibold mb-3">Siguranță RAG & Guardrails</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Cum să ții Inteligența Artificială sub control: Un ghid practic pentru mecanisme de protecție (Guardrails) în RAG și Agenți AI</h1>
+      <p class="mt-4 text-lg md:text-xl text-white/90 max-w-2xl">O abordare stratificată, pregătită pentru producție, pentru sisteme RAG și agenți AI siguri, exacți și responsabili.</p>
+      <div class="mt-6 text-white/80 text-sm">De CRIA • {{ page.date.toLocaleDateString('ro-RO') }}</div>
+    </div>
+    <div class="neuron-bg"></div>
+  </header>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 prose prose-indigo prose-lg">
+    <p>Sistemele RAG (Generare Augmentată prin Regăsire) și agenții AI transformă modul în care accesăm informații și automatizăm munca. Prin conectarea modelelor lingvistice mari (LLM) la datele companiei dumneavoastră, acestea pot răspunde la întrebări complexe, pot rezuma documente și pot acționa în numele dumneavoastră.</p>
+
+    <p>Dar ce se întâmplă atunci când un sistem RAG recuperează un document cu date financiare sensibile și îl arată persoanei nepotrivite? Sau când un agent, încercând să fie de ajutor, acționează pe baza unei comenzi înțelese greșit?</p>
+
+    <p>În compania noastră, construim sisteme AI fiabile prin implementarea unor <strong>mecanisme de protecție (guardrails)</strong>. Gândiți-vă la ele ca la verificările și echilibrele esențiale ale AI-ului. Nu limitează puterea, ci o ghidează — asigurând funcționarea în siguranță, cu acuratețe și responsabil. Acesta este ghidul nostru practic, în special pentru RAG.</p>
+
+    <h2>De ce sunt cruciale mecanismele de protecție pentru RAG</h2>
+    <p>RAG reduce halucinațiile și ancorează răspunsurile în documente factuale. Totuși, <em>baza de cunoștințe</em> introduce riscuri noi — documentele devin sursa principală a problemelor potențiale.</p>
+    <ul>
+      <li><strong>Scurgeri de date sensibile</strong>: PII, detalii confidențiale, evidențe financiare pot ajunge la persoane neautorizate.</li>
+      <li><strong>Controlul accesului</strong>: Existența ≠ permisiune. RAG trebuie să aplice aceleași ierarhii de acces ca sistemele sursă.</li>
+      <li><strong>Informații incorecte sau învechite</strong>: Surse greșite/stale → răspunsuri greșite.</li>
+      <li><strong>Toxicitate și părtinire</strong>: Limbaj părtinitor/toxic din documente se poate propaga în răspunsuri.</li>
+    </ul>
+
+    <div class="not-prose rounded-xl border border-indigo-100 bg-indigo-50 p-4 text-indigo-900">
+      <p class="m-0"><strong>Concluzie practică:</strong> Guardrails transformă un prototip puternic într-un <em>sistem de încredere</em>.</p>
+    </div>
+
+    <h2>Abordarea noastră stratificată pentru siguranța RAG</h2>
+    <p>Construim apărare pe <em>trei straturi</em>: înainte de rularea interogării, după regăsire și înainte de afișarea răspunsului final.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Strat</th>
+          <th>Obiectiv</th>
+          <th>Verificări tipice</th>
+          <th>Ce previne</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Intrare</strong></td>
+          <td>Validarea și igienizarea cererii</td>
+          <td>Relevanță subiect; redactare PII; filtre abuz</td>
+          <td>Întrebări off-scope; logare date sensibile</td>
+        </tr>
+        <tr>
+          <td><strong>Regăsire</strong></td>
+          <td>Controlul documentelor care ajung la LLM</td>
+          <td><strong>Aplicare control acces</strong>; filtre politică; verificări actualitate</td>
+          <td>Dezvăluire neautorizată; surse învechite</td>
+        </tr>
+        <tr>
+          <td><strong>Ieșire</strong></td>
+          <td>Revizuirea răspunsului generat</td>
+          <td>Filtru toxicitate; verificare fundamentare/citații; detecție jailbreak</td>
+          <td>Halucinații; încălcări de politică; injecții de prompt</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>1) Mecanisme de protecție la intrare (Poarta de acces)</h3>
+    <ul>
+      <li><strong>Verificarea relevanței</strong>: Menține asistentul pe subiect. Un bot de suport nu răspunde la politică/medical.</li>
+      <li><strong>Redactare PII</strong>: Elimină nume, e-mailuri, numere de cont înainte de procesare/logare.</li>
+    </ul>
+
+    <h3>2) Mecanisme de protecție la regăsire (Punctul de control)</h3>
+    <p>Cel mai critic strat pentru RAG:</p>
+    <ul>
+      <li><strong>Control de acces</strong>: Verificăm permisiunile pentru <em>fiecare</em> document regăsit. Documentele neautorizate nu intră în context.</li>
+      <li><strong>Actualitate & Politici</strong>: Excludem conținutul expirat sau care încalcă politicile.</li>
+    </ul>
+
+    <h3>3) Mecanisme de protecție la ieșire (Verificarea finală)</h3>
+    <ul>
+      <li><strong>Filtrarea toxicității</strong>: Blochează limbajul neadecvat.</li>
+      <li><strong>Fundamentare și citații</strong>: Asigură că afirmațiile sunt susținute de conținutul regăsit.</li>
+      <li><strong>Anti-jailbreak</strong>: Detectează tentative de ocolire a regulilor sau expunere de prompt-uri.</li>
+    </ul>
+
+    <h2>Un exemplu simplu: Garda de subiect</h2>
+    <p>Folosiți un model rapid și ieftin ca „portar” al relevanței. Prompt:</p>
+    <pre><code>Ești un mecanism de protecție pentru clasificarea subiectului. Sarcina ta este să determini dacă o interogare a utilizatorului este legată de produsele software ale companiei noastre. Răspunde cu un singur cuvânt: RELEVANT sau IRELEVANT.
+
+Interogarea utilizatorului: "{{user_query}}"</code></pre>
+
+    <p>Logică în pseudocod:</p>
+    <pre><code class="language-python">def gestioneaza_interogare_utilizator(interogare_utilizator):
+    # Folosește un LLM rapid și ieftin (precum Gemini Flash) pentru această verificare
+    rezultat_subiect = verifica_relevanta_subiect_cu_llm(interogare_utilizator)  # "RELEVANT" sau "IRELEVANT"
+
+    if rezultat_subiect == "RELEVANT":
+        raspuns = ruleaza_flux_rag(interogare_utilizator)
+        return raspuns
+    else:
+        return "Îmi pare rău, pot răspunde doar la întrebări legate de produsele noastre software."
+
+# Exemplu de utilizare
+gestioneaza_interogare_utilizator("Cum îmi resetez parola?")  # -> Continuă către RAG
+gestioneaza_interogare_utilizator("Ce părere ai despre alegerile viitoare?")  # -> Blocat
+    </code></pre>
+
+    <h2>Inginerie pentru fiabilitate: Este tot software</h2>
+    <ul>
+      <li><strong>Modularitate</strong>: Componente specializate (intrare, regăsire, generare) în loc de monolit.</li>
+      <li><strong>Observabilitate</strong>: Logging structurat al interogării, documentelor regăsite și răspunsului.</li>
+      <li><strong>Principiul privilegiului minim</strong>: Permisiuni strict necesare. Limitează „raza de explozie”.</li>
+    </ul>
+
+    <h2>Gânduri de final</h2>
+    <p>Implementarea guardrails nu este doar tehnică — este parte esențială a AI responsabil. Cu o apărare stratificată — de la verificarea intrărilor și controlul accesului până la verificări la ieșire — putem construi sisteme RAG și agenți care sunt puternici, siguri și cu adevărat utili.</p>
+  </div>
+</article>
+
+
